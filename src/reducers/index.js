@@ -1,15 +1,6 @@
-import { UPDATE_NAMES } from '../actions';
+import { combineReducers } from 'redux';
 
-const initialState = {
-  names: [],
-};
+import contributors from './contributors';
+import request from './request';
 
-export default (state = initialState, action) => {
-  switch (action.type) {
-    case UPDATE_NAMES:
-      const { names } = action;
-      return { ...state, names };
-    default:
-      return state;
-  }
-};
+export default combineReducers({ contributors, request });

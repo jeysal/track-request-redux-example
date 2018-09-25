@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
@@ -11,6 +10,10 @@ import { createEpicMiddleware } from 'redux-observable';
 
 import rootReducer from './reducers';
 import rootEpic from './epics';
+
+import './index.css';
+import registerServiceWorker from './registerServiceWorker';
+import App from './App';
 
 const epicMiddleware = createEpicMiddleware();
 
@@ -25,8 +28,11 @@ epicMiddleware.run(rootEpic);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </Provider>,
   document.getElementById('root'),
 );
+
 registerServiceWorker();

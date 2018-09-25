@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import { showContributors } from '../../actions';
-import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class Form extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { owner: '', repo: '' };
+  }
+
   changeOwner = ({ target: { value } }) => {
     this.setState({ owner: value });
   };
@@ -11,15 +15,10 @@ class Form extends Component {
     this.setState({ repo: value });
   };
 
-  submit = event => {
-    const { owner, repo } = this.state;
-    this.props.onSubmit(owner, repo);
-    event.preventDefault();
-  };
-
   render() {
+    const { owner, repo } = this.state;
     return (
-      <form onSubmit={this.submit}>
+      <form>
         <label>
           Owner{' '}
           <input
@@ -35,17 +34,15 @@ class Form extends Component {
           <input id="repo" type="text" name="repo" onChange={this.changeRepo} />
         </label>
         <br />
-        <button type="submit">Show contributors</button>
+        <Link to={`/${owner}/${repo}`}>
+          {/* putting a button into an anchor like this is probably not spec-compliant at all,
+          but it manages to trigger the navigation and prevent the form action
+          both on form submit (e.g. return key) and on link click */}
+          <button type="submit">Show contributors</button>
+        </Link>
       </form>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  onSubmit: (owner, repo) => dispatch(showContributors(owner, repo)),
-});
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Form);
+export default Form;

@@ -1,9 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { showContributors } from '../../actions/contributors';
+import { getNames, getContributorsRequest } from '../../selectors/contributors';
+
+import Spinner from '../Spinner';
+
 class List extends Component {
+  componentDidMount() {
+    this.props.fetchContributors();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { owner, repo } = this.props.match.params;
+    const { owner: prevOwner, repo: prevRepo } = prevProps.match.params;
+
+    if (owner !== prevOwner || repo !== prevRepo) {
+      this.props.fetchContributors();
+    }
+  }
+
   render() {
-    const { names } = this.props;
+    const { names, requestState } = this.props;
+
+    if (requestState === 'prolonged') {
+      return <Spinner />;
+    }
+
     return (
       <ul>
         {names.map(name => (
@@ -14,9 +37,30 @@ class List extends Component {
   }
 }
 
-const mapStateToProps = ({ names }) => ({ names });
+const mapStateToProps = (
+  state,
+  {
+    match: {
+      params: { owner, repo },
+    },
+  },
+) => ({
+  names: getNames(state),
+  requestState: getContributorsRequest(owner, repo)(state),
+});
+
+const mapDispatchToProps = (
+  dispatch,
+  {
+    match: {
+      params: { owner, repo },
+    },
+  },
+) => ({
+  fetchContributors: () => dispatch(showContributors(owner, repo)),
+});
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(List);
