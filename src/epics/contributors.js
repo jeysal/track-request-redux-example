@@ -26,7 +26,8 @@ const fetchContributorsEpic = action$ =>
     ofType(SHOW_CONTRIBUTORS),
     switchMap(({ owner, repo }) =>
       defer(() => fetchNames(owner, repo)).pipe(
-        trackRequest(CONTRIBUTORS_REQUEST, `${owner}/${repo}`),
+        // trackRequest(CONTRIBUTORS_REQUEST, `${owner}/${repo}`),
+        trackRequest(CONTRIBUTORS_REQUEST),
         catchError(err => {
           alert(err);
           return EMPTY;

@@ -21,9 +21,12 @@ class List extends Component {
   }
 
   render() {
-    const { names, requestState } = this.props;
+    const {
+      names,
+      requestState: { placeholder },
+    } = this.props;
 
-    if (requestState === 'prolonged') {
+    if (placeholder) {
       return <Spinner />;
     }
 

@@ -7,7 +7,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case SHOW_CONTRIBUTORS:
-      return initialState;
+      return state;
     case UPDATE_NAMES:
       const { names } = action;
       return { ...state, names };

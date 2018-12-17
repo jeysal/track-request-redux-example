@@ -8,37 +8,42 @@ import {
 const initialState = {};
 
 export default (state = initialState, action) => {
+  const byName = state[action.name] || {};
   switch (action.type) {
     case MARK_REQUEST_AS_PENDING:
+      const byPayload = byName[action.payload] || {};
       return {
         ...state,
         [action.name]: {
-          ...state[action.name],
-          [action.payload]: 'pending',
+          ...byName,
+          [action.payload]: {
+            status: 'pending',
+            placeholder: byPayload.placeholder || false,
+          },
         },
       };
     case MARK_REQUEST_AS_PROLONGED:
       return {
         ...state,
         [action.name]: {
-          ...state[action.name],
-          [action.payload]: 'prolonged',
+          ...byName,
+          [action.payload]: { status: 'prolonged', placeholder: true },
         },
       };
     case MARK_REQUEST_AS_SUCCESSFUL:
       return {
         ...state,
         [action.name]: {
-          ...state[action.name],
-          [action.payload]: 'successful',
+          ...byName,
+          [action.payload]: { status: 'successful', placeholder: false },
         },
       };
     case MARK_REQUEST_AS_FAILED:
       return {
         ...state,
         [action.name]: {
-          ...state[action.name],
-          [action.payload]: 'failed',
+          ...byName,
+          [action.payload]: { status: 'failed', placeholder: false },
         },
       };
     default:
