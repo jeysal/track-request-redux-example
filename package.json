@@ -2,6 +2,7 @@
   "private": true,
   "name": "track-request-redux-example",
   "version": "0.1.0",
+  "homepage": "http://jeysal.github.io/track-request-redux-example",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
