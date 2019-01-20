@@ -28,7 +28,7 @@ epicMiddleware.run(rootEpic);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
+    <Router basename="/track-request-redux-example">
       <App />
     </Router>
   </Provider>,
